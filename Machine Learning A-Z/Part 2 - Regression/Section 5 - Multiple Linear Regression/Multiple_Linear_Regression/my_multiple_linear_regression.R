@@ -43,3 +43,32 @@ test_set = subset(dataset, split == FALSE)
 regressor = lm(formula = Profit ~ .,
                data = training_set)
 summary(regressor)
+
+# Predicting the Test set results
+y_pred = predict(regressor, newdata = test_set)
+y_pred
+
+
+
+# Building the optimal model using Backward Elimination
+regressor = lm(formula = Profit ~ R.D.Spend + Administration + Marketing.Spend + State,
+               data = dataset)
+# you can do backward elimination with the training set or the full set
+summary(regressor)
+# State2 P-value 0.990 > 0.05 (State3 is also very high, so remove the State predictor)
+
+regressor = lm(formula = Profit ~ R.D.Spend + Administration + Marketing.Spend,
+               data = dataset)
+summary(regressor)
+# Administration P-value 0.602 > 0.05, so remove Administration predictor
+
+regressor = lm(formula = Profit ~ R.D.Spend + Marketing.Spend,
+               data = dataset)
+summary(regressor)
+# Marketing.Spend P-value 0.06 > 0.05, barely, let's remove it since it is much higher than R.D.Spend
+# There is another strategy to determine whether this should be kept
+
+regressor = lm(formula = Profit ~ R.D.Spend,
+               data = dataset)
+summary(regressor)
+# R.D.Spend P-value 2e-16 < 0.05, so we're done - fit the model to the training set
