@@ -1,13 +1,13 @@
+# Polynomial Regression
+
 # Data Preprocessing
 # apparently no need to import libraries - they are included with R by default
 
 # Importing the dataset
-getwd()
-setwd("C:\\Users\\swenz02\\Documents\\MachineLearning\\Machine Learning A-Z\\Part 1 - Data Preprocessing")
-getwd()
+# set the working directory manually
 
-dataset = read.csv("Data.csv")
-# dataset = dataset[2:3] # use this to select a subset of the data
+dataset = read.csv("Position_Salaries.csv")
+dataset = dataset[2:3] # use this to select a subset of the data
 str(dataset)
 summary(dataset)
 
@@ -29,12 +29,27 @@ summary(dataset)
 
 # Splitting the dataset into the Training set and Test set
 # install.packages("caTools")
-library(caTools)
-set.seed(123)
-split = sample.split(dataset$Purchased, SplitRatio=0.8)
-training_set = subset(dataset, split == TRUE)
-test_set = subset(dataset, split == FALSE)
+# library(caTools)
+# set.seed(123)
+# split = sample.split(dataset$Purchased, SplitRatio=0.8)
+# training_set = subset(dataset, split == TRUE)
+# test_set = subset(dataset, split == FALSE)
 
 # Feature Scaling
 # training_set[,2:3] = scale(training_set[,2:3])
 # test_set[,2:3] = scale(test_set[,2:3])
+
+
+
+# Fitting Linear Regression to the dataset - for comparison
+lin_reg = lm(formula = Salary ~ .,
+             data = dataset)
+summary(lin_reg)
+
+# Fitting Polynomial Regression to the dataset
+# add a new independent variable with polynomial values
+dataset$Level2 = dataset$Level ^ 2
+dataset$Level3 = dataset$Level ^ 3
+poly_reg = lm(formula = Salary ~ .,
+              data = dataset)
+summary(poly_reg)
