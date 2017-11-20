@@ -1,7 +1,4 @@
-# Regression Template
-
-# Data Preprocessing
-# apparently no need to import libraries - they are included with R by default
+# SVR - support vector regression
 
 # Importing the dataset
 # set the working directory manually
@@ -41,7 +38,11 @@ dataset = dataset[2:3] # use this to select a subset of the data
 
 # Fitting the regression model to the dataset
 # create regressor here
-
+# install.packages("e1071")
+library(e1071)
+regressor = svm(formula=Salary~.,
+                data=dataset,
+                type="eps-regression")
 
 # Predicting a new result with non-linear regression
 y_pred = predict(regressor,data.frame(Level=6.5))
@@ -54,18 +55,6 @@ ggplot() +
              color="red") +
   geom_line(aes(x=dataset$Level,y=predict(regressor,newdata=dataset)),
             color="blue") +
-  ggtitle("Truth or Bluff (Regression Model)") +
-  xlab("Level") +
-  ylab("Salary")
-
-# Visualizing the non-linear regression results (for higher resolution/smoother curve)
-library(ggplot2)
-x_grid = seq(min(dataset$Level),max(dataset$Level),0.1)
-ggplot() +
-  geom_point(aes(x=dataset$Level,y=dataset$Salary),
-             color="red") +
-  geom_line(aes(x=x_grid,y=predict(regressor,newdata=data.frame(Level=x_grid))),
-            color="blue") +
-  ggtitle("Truth or Bluff (Regression Model)") +
+  ggtitle("Truth or Bluff (SVR Model)") +
   xlab("Level") +
   ylab("Salary")
