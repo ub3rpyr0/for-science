@@ -1,4 +1,4 @@
-# Classification Template
+# Support Vector Machine (SVM)
 
 # Importing the dataset
 dataset = read.csv("Social_Network_Ads.csv")
@@ -29,8 +29,13 @@ training_set[-3] = scale(training_set[-3])
 test_set[-3] = scale(test_set[-3])
 
 
-# Fitting Classifier to the Training set
-# Create classifier variable
+# Fitting SVM Classifier to the Training set
+# install.packages("e1071")
+library(e1071)
+classifier = svm(formula = Purchased ~ .,
+                 data = training_set,
+                 type = 'C-classification',
+                 kernel = 'linear')
 
 # Predicting the Test set results
 y_pred=predict(classifier,newdata=test_set[-3])
@@ -48,7 +53,7 @@ grid_set = expand.grid(X1, X2)
 colnames(grid_set) = c('Age','EstimatedSalary')
 y_grid = predict(classifier, newdata=grid_set)
 plot(set[, -3],
-     main = 'Classifier (Training Set)',
+     main = 'SVM (Training Set)',
      xlab = 'Age', ylab = 'Estimated Salary',
      xlim = range(X1), ylim = range(X2))
 contour(X1, X2, matrix(as.numeric(y_grid), length(X1), length(X2)), add = TRUE)
@@ -65,7 +70,7 @@ grid_set = expand.grid(X1, X2)
 colnames(grid_set) = c('Age','EstimatedSalary')
 y_grid = predict(classifier, newdata=grid_set)
 plot(set[, -3],
-     main = 'Classifier (Test Set)',
+     main = 'SVM (Test Set)',
      xlab = 'Age', ylab = 'Estimated Salary',
      xlim = range(X1), ylim = range(X2))
 contour(X1, X2, matrix(as.numeric(y_grid), length(X1), length(X2)), add = TRUE)
