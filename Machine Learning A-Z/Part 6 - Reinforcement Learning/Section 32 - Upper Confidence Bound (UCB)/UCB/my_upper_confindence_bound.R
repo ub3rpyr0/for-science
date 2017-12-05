@@ -9,7 +9,7 @@ d <- 10
 ads_selected <- integer()
 numbers_of_selections <- integer(d)
 sums_of_rewards <- integer(d)
-
+total_reward <- 0
 for(n in 1:N) {
   ad <- 0
   max_upper_bound <- 0
@@ -26,4 +26,16 @@ for(n in 1:N) {
       ad <- i
     }
   }
+  ads_selected = append(ads_selected, ad)
+  numbers_of_selections[ad] <- numbers_of_selections[ad] + 1
+  reward <- dataset[n, ad]
+  sums_of_rewards[ad] <- sums_of_rewards[ad] + reward
+  total_reward <- total_reward + reward
 }
+
+# Visualizing the results - histogram
+hist(ads_selected,
+     col = 'blue',
+     main = 'Histogram of Selected Ads',
+     xlab = 'Ad Number',
+     ylab = 'Number of times each Ad selected')
