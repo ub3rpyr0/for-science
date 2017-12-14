@@ -76,5 +76,21 @@ points(grid_set, pch = '.', col = ifelse(y_grid == 1, 'springgreen3', 'tomato'))
 points(set, pch = 21, bg = ifelse(set[, 3] == 1, 'green4', 'red3'))
 
 # Plotting the decision tree: done by importing data WITHOUT feature scaling
+dataset = read.csv("Social_Network_Ads.csv")
+dataset = dataset[3:5]
+# Encoding categorical data
+dataset$Purchased = factor(dataset$Purchased,
+                           levels = c(0, 1))
+
+# Splitting the dataset into the Training set and Test set
+# install.packages("caTools")
+set.seed(123)
+split = sample.split(dataset$Purchased, SplitRatio=0.75)
+training_set = subset(dataset, split == TRUE)
+test_set = subset(dataset, split == FALSE)
+
+classifier = rpart(formula = Purchased ~ .,
+                   data = training_set)
+
 plot(classifier)
 text(classifier)
