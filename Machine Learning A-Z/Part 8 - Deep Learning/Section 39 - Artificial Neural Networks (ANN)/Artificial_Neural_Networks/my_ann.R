@@ -56,4 +56,4 @@ y_pred = as.vector(y_pred)
 cm = table(test_set[,11], y_pred)
 
 # disconnect from the h2o instance
-h2o.shutdown(promtp=FALSE)
+h2o.shutdown(prompt = FALSE)
