@@ -51,10 +51,23 @@ classifier = Sequential()
 # classifier.add(Dense(output_dim = 6, init = "uniform", activation = "relu", input_dim = 11))
 classifier.add(Dense(units = 6, kernel_initializer = "uniform", activation = "relu", input_dim = 11))
 
+# Adding the second hidden layer
+classifier.add(Dense(units = 6, kernel_initializer = "uniform", activation = "relu"))
+
+# Adding the output layer - use softmax activation function in case you have 3+ output categories
+classifier.add(Dense(units = 1, kernel_initializer = "uniform", activation = "sigmoid"))
+
+# Compiling the ANN - use loss = "categorical_crossentropy" in case you have 3+ output categories
+classifier.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
+
+# Fitting the ANN to the Training Set
+classifier.fit(X_train, y_train, batch_size = 10, nb_epoch = 100)
+
 # Making the predictions and evaluating the model
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
+y_pred = (y_pred >= 0.5)
 
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix
